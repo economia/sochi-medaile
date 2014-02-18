@@ -42,3 +42,21 @@ utils.deminifyData = (minified) ->
             row_out[column] = indices[row_out[column]]
         row_out
     out
+
+utils.draw-bg = (element, padding = {}) ->
+    top = element.offsetTop
+    height = element.offsetHeight
+    if padding.top
+        top += that
+        height -= that
+    if padding.bottom
+        height += that
+
+    bg = document.createElement \div
+        ..style.top    = "#{top}px"
+        ..style.height = "#{height}px"
+        ..className    = "ig-background"
+
+    ihned = document.querySelector '#ihned'
+    if ihned
+        that.parentNode.insertBefore bg, ihned

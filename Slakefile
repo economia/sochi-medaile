@@ -12,6 +12,7 @@ externalStyles = []
 
 externalData =
     medailiste: "#__dirname/data/medailiste.json"
+    style: "#__dirname/www/screen.css"
 
 preferScripts = <[ postInit.js _loadData.js ../data.js init.js _loadExternal.js]>
 deferScripts = <[ base.js ]>
