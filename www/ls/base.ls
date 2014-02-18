@@ -5,11 +5,22 @@ class Nation
         @byYearsAssoc = {}
         @medalsSum = 0
 
-    addMedalist: ({rok:year}:person) ->
+    addMedalist: ({rok:year, medaile:medal}:person) ->
         ++@medalsSum
         if @byYearsAssoc[year] is void
-            @byYearsAssoc[year] = -1 + @byYears.push {year, medailists: []}
-        @byYears[@byYearsAssoc[year]].medailists.push person
+            medailists = []
+            medailistsByType =
+                *   type: \gold medailists: []
+                *   type: \silver medailists: []
+                *   type: \bronze medailists: []
+            @byYearsAssoc[year] = -1 + @byYears.push {year, medailists, medailistsByType}
+        yearData = @byYears[@byYearsAssoc[year]]
+        index = switch medal
+            | \zlato => 0
+            | \stříbro => 1
+            | \bronz => 2
+        yearData.medailistsByType[index].medailists.push person
+        yearData.medailists.push person
 
 class Sport
     (@name) ->
@@ -37,9 +48,10 @@ x = d3.scale.linear!
 heights = nations.map ->
     Math.max ...it.byYears.map (.medailists.length)
 max = Math.max ...heights
+lineHeight = 60px
 y = d3.scale.linear!
     ..domain [0 max]
-    ..range [0 100]
+    ..range [0 lineHeight]
 
 dNations = container.selectAll "div.nation" .data nations
     .enter!append \div
@@ -51,7 +63,11 @@ dNations = container.selectAll "div.nation" .data nations
             ..enter!append \div
                 ..attr \class \year
                 ..style \left -> "#{x it.year}%"
-                ..style \height -> "#{y it.medailists.length}%"
+                ..selectAll \div.medalType .data (.medailistsByType)
+                    ..enter!append \div
+                        ..attr \class -> "medalType #{it.type}"
+                        ..style \height -> "#{y it.medailists.length}px"
+                ..style \height -> "#{y it.medailists.length}px"
 
 ig.utils.draw-bg do
     ig.containers['base']
