@@ -46,7 +46,7 @@ nations .= sort (a, b) -> b.medalsSum - a.medalsSum
 container = d3.select ig.containers['base']
 x = d3.scale.linear!
     ..domain [1924 2010]
-    ..range [0 486 - 15]
+    ..range [0 466]
 heights = nations.map ->
     Math.max ...it.byYears.map (.medailists.length)
 max = Math.max ...heights
@@ -62,6 +62,14 @@ dNations = container.selectAll "div.nation" .data nations
         ..append \div
             ..attr \class \name
             ..html (.name)
+        ..append \div
+            ..attr \class \leftSide
+            ..append \div
+                ..attr \class \abbr
+                ..html -> it.name
+            ..append \div
+                ..attr \class \count
+                ..html -> it.medalsSum
         ..selectAll \div.year .data (.byYears)
             ..enter!append \div
                 ..attr \class -> "yearContainer y-#{it.year}"

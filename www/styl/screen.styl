@@ -8,17 +8,36 @@
     @import background
 .ig.base
     margin-left -23px
-    width 486px
-    height auto
+    width 566px
+    height 200px
     .nation
         float left
         clear left
-        width 100%
+        margin-left 85px
+        width (@width - @margin-left)
         height 60px
         position relative
         border-bottom 1px solid #aaa
         margin-top 10px
-        overflow hidden
+        .leftSide
+            position absolute
+            left -85px
+            top 0px
+            height 100%
+            text-align center
+            width 70px
+            color #444
+            .abbr
+                position absolute
+                top 0px
+                width 100%
+                font-size 0.8em
+                font-weight bold
+            .count
+                width 100%
+                position absolute
+                bottom 5px
+                font-size 2.5em
         .name
             position absolute
             top 0px
