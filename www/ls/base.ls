@@ -117,11 +117,13 @@ draw-nation-year = (nation, year) ->
                         #{sport.name} #{disciplina.name}<br />
                         #{vysledek}"
         ..append \div
-            ..attr \class \close
-            ..on \click ->
-                ele.classed \phase-1 off
-                <~ setTimeout _, 800
-                ele.remove!
+            ..attr \class \closeContainer
+            ..append \div
+                ..attr \class \close
+                ..on \click ->
+                    ele.classed \phase-1 off
+                    <~ setTimeout _, 800
+                    ele.remove!
     console.log year
 
     <~ setTimeout _, 1
