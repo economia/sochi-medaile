@@ -1,7 +1,5 @@
 require! fs
-require! iconv.Iconv
 require! async
-iconv = new Iconv \utf-8 \cp1250//TRANSLIT//IGNORE
 option 'testFile' 'File in (/lib or /test) to run test on' 'FILE'
 option 'currentfile' 'Latest file that triggered the save' 'FILE'
 
@@ -128,7 +126,6 @@ combine-scripts = (options = {}, cb) ->
         external = fs.readFileSync "#__dirname/www/external.js"
         code = external + code
 
-    code = iconv.convert code if iconv
     fs.writeFileSync "#__dirname/www/script.js", code
     console.log "Scripts combined"
     cb? err
