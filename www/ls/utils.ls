@@ -32,3 +32,13 @@ utils.offset = (element, side) ->
         left += element.offsetLeft
     while element = element.offsetParent
     {top, left}
+
+utils.deminifyData = (minified) ->
+    out = for row in minified.data
+        row_out = {}
+        for column, index in minified.columns
+            row_out[column] = row[index]
+        for column, indices of minified.indices
+            row_out[column] = indices[row_out[column]]
+        row_out
+    out

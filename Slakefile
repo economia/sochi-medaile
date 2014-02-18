@@ -12,9 +12,7 @@ externalScripts =
 externalStyles = []
 
 externalData =
-    staty: "#__dirname/data/staty.csv"
-    kluby: "#__dirname/data/kluby.csv"
-    style: "#__dirname/www/screen.css"
+    medailiste: "#__dirname/data/medailiste.json"
 
 preferScripts = <[ postInit.js _loadData.js ../data.js init.js _loadExternal.js]>
 deferScripts = <[ base.js ]>
