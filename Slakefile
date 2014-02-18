@@ -5,10 +5,12 @@ option 'currentfile' 'Latest file that triggered the save' 'FILE'
 
 externalScripts =
     \http://service.ihned.cz/js/d3/v3.3.2.min.js
-    \http://service.ihned.cz/js/tooltip/v1.1.2.d3.min.js
+    \http://service.ihned.cz/js/tooltip/v1.1.4.d3.min.js
     ...
 
-externalStyles = []
+externalStyles =
+    \http://service.ihned.cz/js/tooltip/v1.1.4.css
+    ...
 
 externalData =
     medailiste: "#__dirname/data/medailiste.json"

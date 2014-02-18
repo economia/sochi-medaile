@@ -24,18 +24,32 @@
             left 0px
             font-size 0.8em
             color #444
-        .year
+            z-index 2
+        .yearContainer
+            z-index 1
             position absolute
-            width 8px
-            bottom 0px
-            background #bbb
-            .medalType
-                float left
-                width 100%
-                &.gold
-                    background #D9A441
-                &.silver
-                    background #CCC2C2
-                &.bronze
-                    background #965A38
+            top 0px
+            width 22px
+            height 100%
+            &:hover
+                background #eee
+                cursor help
+            &.y-1992
+                width 11px
+                .year
+                    left 1px
+            .year
+                position absolute
+                width 8px
+                bottom 0px
+                left 7px
+                .medalType
+                    float left
+                    width 100%
+                    &.gold
+                        background #D9A441
+                    &.silver
+                        background #CCC2C2
+                    &.bronze
+                        background #965A38
 

@@ -1,3 +1,4 @@
+new Tooltip!watchElements!
 class Nation
     (@name) ->
         @byMedals = []
@@ -44,7 +45,7 @@ nations .= sort (a, b) -> b.medalsSum - a.medalsSum
 container = d3.select ig.containers['base']
 x = d3.scale.linear!
     ..domain [1924 2010]
-    ..range [0 100]
+    ..range [0 486 - 10]
 heights = nations.map ->
     Math.max ...it.byYears.map (.medailists.length)
 max = Math.max ...heights
@@ -61,13 +62,20 @@ dNations = container.selectAll "div.nation" .data nations
             ..html (.name)
         ..selectAll \div.year .data (.byYears)
             ..enter!append \div
-                ..attr \class \year
-                ..style \left -> "#{x it.year}%"
-                ..selectAll \div.medalType .data (.medailistsByType)
-                    ..enter!append \div
-                        ..attr \class -> "medalType #{it.type}"
-                        ..style \height -> "#{y it.medailists.length}px"
-                ..style \height -> "#{y it.medailists.length}px"
+                ..attr \class -> "yearContainer y-#{it.year}"
+                ..attr \data-tooltip (it, index, nationIndex)-> escape "<b>#{nations[nationIndex].name}, rok #{it.year}</b><br />
+                Celkem #{it.medailists.length} medailí<br />
+                #{it.medailistsByType.0.medailists.length}x zlato<br />
+                #{it.medailistsByType.1.medailists.length}x stříbro<br />
+                #{it.medailistsByType.2.medailists.length}x bronz<br />"
+                ..style \left -> "#{x it.year}px"
+                ..append \div
+                    ..attr \class \year
+                    ..style \height -> "#{y it.medailists.length}px"
+                    ..selectAll \div.medalType .data (.medailistsByType)
+                        ..enter!append \div
+                            ..attr \class -> "medalType #{it.type}"
+                            ..style \height -> "#{y it.medailists.length}px"
 
 ig.utils.draw-bg do
     ig.containers['base']
