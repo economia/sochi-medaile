@@ -47,7 +47,7 @@ nations .= sort (a, b) -> b.medalsSum - a.medalsSum
 container = d3.select ig.containers['base']
 x = d3.scale.linear!
     ..domain [1924 2010]
-    ..range [0 466]
+    ..range [0 460]
 heights = nations.map ->
     Math.max ...it.byYears.map (.medailists.length)
 max = Math.max ...heights
