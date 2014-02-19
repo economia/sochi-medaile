@@ -1,7 +1,8 @@
 tooltip = new Tooltip!
     ..watchElements!
 class Nation
-    (@name) ->
+    (@abbr) ->
+        @name = ig.nations_expand[@abbr]
         @byMedals = []
         @byYears = []
         @byYearsAssoc = {}
@@ -66,7 +67,7 @@ dNations = container.selectAll "div.nation" .data nations
             ..attr \class \leftSide
             ..append \div
                 ..attr \class \abbr
-                ..html -> it.name
+                ..html (.abbr)
             ..append \div
                 ..attr \class \count
                 ..html -> it.medalsSum
