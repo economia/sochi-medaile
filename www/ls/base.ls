@@ -78,7 +78,8 @@ dNations = container.selectAll "div.nation" .data nations
                     Celkem #{it.medailists.length} medailí<br />
                     #{it.medailistsByType.0.medailists.length}x zlato<br />
                     #{it.medailistsByType.1.medailists.length}x stříbro<br />
-                    #{it.medailistsByType.2.medailists.length}x bronz<br />"
+                    #{it.medailistsByType.2.medailists.length}x bronz<br />
+                    <i>Klikněte pro zobrazení konkrétních medailistů</i>"
                 ..on \click (year, index, nationIndex) ->
                     draw-nation-year nations[nationIndex], year
                     tooltip.hide!
