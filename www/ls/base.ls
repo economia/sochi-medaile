@@ -90,10 +90,6 @@ dNations = container.selectAll "div.nation" .data nations
                         ..enter!append \div
                             ..attr \class -> "medalType #{it.type}"
                             ..style \height -> "#{y it.medailists.length}px"
-ig.utils.draw-bg do
-    ig.containers['base']
-    top: -3px
-    bottom: -1 + 3
 
 draw-nation-year = (nation, year) ->
     medailists = year.medailists.sort (a, b) ->
