@@ -92,23 +92,15 @@ dNations = container.selectAll "div.nation" .data nations
                             ..style \height -> "#{y it.medailists.length}px"
 
 draw-nation-year = (nation, year) ->
-    medailists = year.medailists.sort (a, b) ->
-        | a.medaile > b.medaile => -1
-        | b.medaile > a.medaile => 1
-        | _ => 0
     ele = d3.select nation.element .append \div
         ..attr \class \detail
         ..append \div
             ..attr \class \name
-            ..html "#{nation.name}, medaile #{year.year}"
-        ..selectAll \div.medal .data medailists
-            ..enter!append \div
-                ..attr \class ->
-                    type = switch it.medaile
-                        | \zlato => \gold
-                        | \stříbro => \silver
-                        | \bronz => \bronze
-                    "medal #type"
+            ..html "#{nation.name}, <span>medaile #{year.year}<span>"
+        ..selectAll \div.medalType .data year.medailistsByType .enter!append \div
+            ..attr \class -> "medalType #{it.type}"
+            ..selectAll \div.medal .data (.medailists) .enter!append \div
+                ..attr \class "medal"
                 ..attr \data-tooltip ({medaile, sport, disciplina, jmena, vysledek}) ->
                     escape "<b>#jmena</b><br />
                         #{sport.name} #{disciplina.name}<br />
@@ -121,7 +113,6 @@ draw-nation-year = (nation, year) ->
                     ele.classed \phase-1 off
                     <~ setTimeout _, 800
                     ele.remove!
-    console.log year
 
     <~ setTimeout _, 1
     ele.classed \phase-1 on
