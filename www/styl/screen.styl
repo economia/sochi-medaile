@@ -6,6 +6,8 @@
     @import basics
 .ig-background
     @import background
+.tooltip
+    max-width 400px
 .ig.base
     leftColumn = 85px
     width 566px
@@ -79,15 +81,16 @@
         .detail
             position absolute
             top 0px
-            left -120%
+            left -140%
             width 566px
             height 100%
             background rgba(255,255,255,0.9)
-            transition left 0.8s cubic-bezier(0.17,0.67,0.32,1.27)
+            transition left 0.8s ease-in
             z-index 3
             padding-top 24px
             &.phase-1
                 left (leftColumn * -1)
+                transition-timing-function cubic-bezier(0.17,0.67,0.32,1.27)
             .name
                 left leftColumn
             .medalType
@@ -96,10 +99,16 @@
                 margin-left leftColumn
                 &.gold .medal
                     background #D9A441
+                &.gold .sum
+                    color darken(#D9A441, 60%)
                 &.silver .medal
                     background #CCC2C2
+                &.silver .sum
+                    color darken(#CCC2C2, 60%)
                 &.bronze .medal
                     background #965A38
+                &.bronze .sum
+                    color darken(#965A38, 60%)
                 .medal
                     width 15px
                     height 15px
@@ -108,6 +117,11 @@
                     float left
                     &:hover
                         cursor help
+                .sum
+                    float left
+                    font-size 0.72em
+                    font-weight bold
+                    padding-left 3px
             .closeContainer
                 position absolute
                 top 0px

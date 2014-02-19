@@ -105,6 +105,9 @@ draw-nation-year = (nation, year) ->
                     escape "<b>#jmena</b><br />
                         #{sport.name} #{disciplina.name}<br />
                         #{vysledek}"
+            ..append \div
+                ..attr \class \sum
+                ..html -> it.medailists.length
         ..append \div
             ..attr \class \closeContainer
             ..append \div
