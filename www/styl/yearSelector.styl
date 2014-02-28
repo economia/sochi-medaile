@@ -1,0 +1,57 @@
+&
+    height 70px
+    position relative
+    left 85px
+    margin-bottom 15px
+    .year
+        float left
+        overflow hidden
+        height 65px
+        border-bottom 5px solid HNBlue
+        &:hover
+            border-bottom-color darken(HNBlue, 40%)
+            cursor pointer
+            font-weight bold
+        &.active
+            font-weight bold
+            border-bottom-color darken(HNBlue, 50%)
+        position absolute
+        width 22px
+        bottom 0px
+        &.y-1988
+        &.y-1992
+        &.y-1994
+            width 19px
+        &.y-1992
+            margin-left -3px
+
+        &.y-1994
+            margin-left 4px
+        span
+            position absolute
+            display block
+            bottom 10px
+            left -3px
+            font-size 0.8em
+            transform rotate(-90deg)
+        .closebtn
+            position absolute
+            width 100%
+            height 16px
+            bottom -16px
+            background transparent iurl('delete.png') no-repeat center top
+        .closebtn
+        span
+            transition bottom 0.2s
+        &.active
+            .closebtn
+                bottom 0px
+            span
+                bottom 25px
+            &:hover
+                span
+                    font-weight normal
+                .closebtn
+                    opacity 0.5
+
+

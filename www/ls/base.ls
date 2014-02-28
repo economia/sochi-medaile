@@ -7,9 +7,11 @@ class Nation
         @byYears = []
         @byYearsAssoc = {}
         @medalsSum = 0
+        @displayedMedals = 0
 
     addMedalist: ({rok:year, medaile:medal}:person) ->
         ++@medalsSum
+        @displayedMedals = @medalsSum
         if @byYearsAssoc[year] is void
             medailists = []
             medailistsByType =
@@ -24,6 +26,16 @@ class Nation
             | \bronz => 2
         yearData.medailistsByType[index].medailists.push person
         yearData.medailists.push person
+
+    recountMedals: ->
+        @displayedMedals =
+            | yearFilter.length
+                @byYears
+                    .filter -> it.year in yearFilter
+                    .reduce do
+                        (prev, curr) -> prev + curr.medailists.length
+                        0
+            | otherwise => @medalsSum
 
 class Sport
     (@name) ->
@@ -55,6 +67,25 @@ lineHeight = 60px
 y = d3.scale.linear!
     ..domain [0 max]
     ..range [0 lineHeight]
+yearSelector = container.append \div .attr \class \yearSelector
+yearFilter = ["2010"]
+yearSelector.selectAll \div.year .data ig.data.medailiste.indices.rok .enter!append \div
+    ..attr \class -> "year y-#{it}"
+    ..classed \active -> it in yearFilter
+    ..style \left -> "#{x it}px"
+    ..append \span .html -> it
+    ..append \div
+        ..attr \class \closebtn
+    ..on \click ->
+        i = yearFilter.indexOf it
+        if i === -1
+            yearFilter.push it
+            d3.select @ .classed \active yes
+        else
+            yearFilter.splice i, 1
+            d3.select @ .classed \active no
+        reFilter!
+
 
 dNations = container.selectAll "div.nation" .data nations
     .enter!append \div
@@ -92,6 +123,12 @@ dNations = container.selectAll "div.nation" .data nations
                             ..attr \class -> "medalType #{it.type}"
                             ..style \height -> "#{y it.medailists.length}px"
 
+reFilter = ->
+    nations.forEach (.recountMedals!)
+    dNations
+        ..sort (a, b) -> b.displayedMedals - a.displayedMedals
+        ..select "div.leftSide div.count" .html (.displayedMedals)
+reFilter!
 draw-nation-year = (nation, year) ->
     ele = d3.select nation.element .append \div
         ..attr \class \detail
