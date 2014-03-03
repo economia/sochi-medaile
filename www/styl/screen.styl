@@ -85,12 +85,21 @@
                 .medalType
                     float left
                     width 100%
+                    transition background 0.2s
                     &.gold
                         background #D9A441
                     &.silver
                         background #CCC2C2
                     &.bronze
                         background #965A38
+            &.inactive .year .medalType
+                &.gold
+                    background grayscale(lighten(#D9A441, 50%))
+                &.silver
+                    background grayscale(lighten(#CCC2C2, 50%))
+                &.bronze
+                    background grayscale(lighten(#965A38, 50%))
+
 
         .detail
             position absolute

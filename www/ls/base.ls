@@ -128,6 +128,9 @@ reFilter = ->
     dNations
         ..sort (a, b) -> b.displayedMedals - a.displayedMedals
         ..select "div.leftSide div.count" .html (.displayedMedals)
+        ..selectAll "div.yearContainer"
+            ..classed \inactive ->
+                yearFilter.length && it.year not in yearFilter
 reFilter!
 draw-nation-year = (nation, year) ->
     ele = d3.select nation.element .append \div
