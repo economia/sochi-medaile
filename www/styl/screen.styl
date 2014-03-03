@@ -16,6 +16,8 @@
     position relative
     .yearSelector
         @import yearSelector
+    .pseudoNationSelector
+        @import pseudoNationSelector
     .nation
         height 95px
         width @width
@@ -159,6 +161,8 @@
                     @import backButton
         &.pseudo
             background lighten(HNBlue, 85%)
+            &.disabled
+                display none
             .name
             .leftSide
                 color darken(HNBlue, 70%)

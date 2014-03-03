@@ -43,6 +43,9 @@ class Sport
 class Event
     (@name) ->
 
+class PseudoNationSelector
+    (@name, @abbr) ->
+
 years_assoc = {}
 for year, index in ig.data.medailiste.indices.rok
     years_assoc[year] = index
@@ -94,6 +97,30 @@ lineHeight = 60px
 y = d3.scale.linear!
     ..domain [0 max]
     ..range [0 lineHeight]
+
+
+pseudoNationSelectors =
+    new PseudoNationSelector "Sjednotit Německo" "GER"
+    new PseudoNationSelector "Spojit Rusko a Sovětský svaz" "RUS"
+    new PseudoNationSelector "Zachovat Československo" "TCH"
+
+
+container.append \div .attr \class \pseudoNationSelector
+    ..selectAll "div.pair" .data pseudoNationSelectors .enter!append \div
+        ..attr \class \pair
+        ..append \input
+            ..attr \type \checkbox
+            ..attr \id -> "sochi-medaile-#{it.abbr}"
+            ..on \change ->
+                pseudoNations[it.abbr].active = @checked
+                reFilter!
+        ..append \label
+            ..html (.name)
+            ..attr \for -> "sochi-medaile-#{it.abbr}"
+            ..attr \data-tooltip ->
+                | it.abbr == "TCH" => "Objeví se níže ve výpisu, modře podbarvené"
+                | otherwise => void
+
 yearSelector = container.append \div .attr \class \yearSelector
 yearFilter = ["2010"]
 yearSelector.selectAll \div.year .data ig.data.medailiste.indices.rok .enter!append \div
@@ -119,7 +146,7 @@ dNations = container.selectAll "div.nation" .data nations
     .enter!append \div
         ..each (nation) -> nation.element = @
         ..attr \class ->
-            isPseudo = if it.isPseudo then "pseudo" else ""
+            isPseudo = if it.isPseudo then "pseudo disabled" else ""
             "nation #{isPseudo}"
         ..append \div
             ..attr \class \name
@@ -159,6 +186,7 @@ reFilter = ->
     dNations
         ..sort (a, b) -> b.displayedMedals - a.displayedMedals
         ..select "div.leftSide div.count" .html (.displayedMedals)
+        ..classed \disabled -> if it.isPseudo and not it.active then true else false
         ..selectAll "div.yearContainer"
             ..classed \inactive ->
                 yearFilter.length && it.year not in yearFilter
