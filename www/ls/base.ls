@@ -85,6 +85,7 @@ yearSelector.selectAll \div.year .data ig.data.medailiste.indices.rok .enter!app
             yearFilter.splice i, 1
             d3.select @ .classed \active no
         reFilter!
+    ..on \mousedown -> d3.event.preventDefault!
 
 
 dNations = container.selectAll "div.nation" .data nations
@@ -114,6 +115,7 @@ dNations = container.selectAll "div.nation" .data nations
                 ..on \click (year, index, nationIndex) ->
                     draw-nation-year nations[nationIndex], year
                     tooltip.hide!
+                ..on \mousedown -> d3.event.preventDefault!
                 ..style \left -> "#{x it.year}px"
                 ..append \div
                     ..attr \class \year
@@ -157,6 +159,7 @@ draw-nation-year = (nation, year) ->
                     ele.classed \phase-1 off
                     <~ setTimeout _, 800
                     ele.remove!
+                ..on \mousedown -> d3.event.preventDefault!
 
     <~ setTimeout _, 1
     ele.classed \phase-1 on
