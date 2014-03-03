@@ -17,15 +17,13 @@
     .yearSelector
         @import yearSelector
     .nation
-        margin-left leftColumn
-        width (@width - @margin-left)
-        height 89px
+        height 95px
+        width @width
         position relative
         border-bottom 1px solid #aaa
-        margin-top 7px
         .leftSide
             position absolute
-            left (leftColumn * -1)
+            left 5px
             top 0px
             height 100%
             text-align center
@@ -33,7 +31,7 @@
             color #444
             .abbr
                 position absolute
-                top 0px
+                top 7px
                 width 100%
                 font-size 0.8em
                 font-weight bold
@@ -44,8 +42,8 @@
                 font-size 2.5em
         .name
             position absolute
-            top 0px
-            left 0px
+            top 7px
+            left leftColumn
             font-size 0.8em
             color #444
             z-index 2
@@ -110,12 +108,17 @@
             background rgba(255,255,255,0.9)
             transition left 0.8s ease-in
             z-index 3
-            padding-top 24px
+            padding-top 29px
             &.phase-1
-                left (leftColumn * -1)
+                left 0px
                 transition-timing-function cubic-bezier(0.17,0.67,0.32,1.27)
             .name
+                display block
                 left leftColumn
+                overflow hidden
+                text-overflow ellipsis
+                width 470px
+                height 19px
             .medalType
                 float left
                 clear left
@@ -154,3 +157,8 @@
                 z-index 4
                 .close
                     @import backButton
+        &.pseudo
+            background lighten(HNBlue, 85%)
+            .name
+            .leftSide
+                color darken(HNBlue, 70%)

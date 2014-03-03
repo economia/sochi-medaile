@@ -1,7 +1,7 @@
 tooltip = new Tooltip!
     ..watchElements!
 class Nation
-    (@abbr) ->
+    (@abbr, @isPseudo) ->
         @name = ig.nations_expand[@abbr]
         @byMedals = []
         @byYears = []
@@ -51,15 +51,42 @@ nations = ig.data.medailiste.indices.stat .= map (name) -> new Nation name
 sports = ig.data.medailiste.indices.sport .= map (name) -> new Sport name
 events = ig.data.medailiste.indices.disciplina .= map (name) -> new Event name
 people = ig.utils.deminifyData ig.data.medailiste
+
+pseudoNations =
+    "TCH": new Nation "TCH", yes
+    "RUS": new Nation "RUS", yes
+    "GER": new Nation "GER", yes
+pseudoNations.RUS.name = "Sovětský svaz + Sjednocený tým + Rusko"
+pseudoNations.TCH.name = "Československo + Česká Republika + Slovensko"
+pseudoNations.GER.name = "Německo + Západní + Východní + Sjednocené"
+pseudoNationSources =
+    "TCH": "TCH"
+    "CZE": "TCH"
+    "SVK": "TCH"
+    "GER": "GER"
+    "FRG": "GER"
+    "GDR": "GER"
+    "EUA": "GER"
+    "RUS": "RUS"
+    "URS": "RUS"
+    "EUN": "RUS"
+
+for index, pseudoNation of pseudoNations
+    nations.push pseudoNation
+
 for person in people
     person.stat.addMedalist person
+    if person.stat.abbr of pseudoNationSources
+        pseudoAbbr = pseudoNationSources[person.stat.abbr]
+        pseudoNations[pseudoAbbr].addMedalist person
 
 nations .= sort (a, b) -> b.medalsSum - a.medalsSum
 
 container = d3.select ig.containers['base']
+leftColumn = 89px
 x = d3.scale.linear!
     ..domain [1924 2010]
-    ..range [0 460]
+    ..range [0+leftColumn, 458+leftColumn]
 heights = nations.map ->
     Math.max ...it.byYears.map (.medailists.length)
 max = Math.max ...heights
@@ -91,7 +118,9 @@ yearSelector.selectAll \div.year .data ig.data.medailiste.indices.rok .enter!app
 dNations = container.selectAll "div.nation" .data nations
     .enter!append \div
         ..each (nation) -> nation.element = @
-        ..attr \class \nation
+        ..attr \class ->
+            isPseudo = if it.isPseudo then "pseudo" else ""
+            "nation #{isPseudo}"
         ..append \div
             ..attr \class \name
             ..html (.name)
